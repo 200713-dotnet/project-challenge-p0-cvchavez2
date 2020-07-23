@@ -46,7 +46,7 @@ namespace PizzaStore.Client
     {
       System.Console.WriteLine("Select 1 to remove a Pizza");
       System.Console.WriteLine("Select 2 to remove All Pizzas and start over");
-      System.Console.WriteLine("Select 3 to edit order");
+      System.Console.WriteLine("Select 3 to edit a Pizza");
       System.Console.WriteLine("Select 4 to Cancel");
       System.Console.WriteLine();
     }
@@ -55,6 +55,20 @@ namespace PizzaStore.Client
     {
       System.Console.WriteLine("Enter Pizza number to delete");
       System.Console.WriteLine("Enter 99 to return");
+    }
+    internal static void EditPizzaMenu() // give it a more appropriate name
+    {
+      System.Console.WriteLine("Enter Pizza number to edit");
+      System.Console.WriteLine("Enter 99 to return");
+    }
+
+    internal static void ModifyPizzaMenu() // give it a more appropriate name
+    {
+      System.Console.WriteLine("Select 1 to change size");
+      System.Console.WriteLine("Select 2 to change crust");
+      System.Console.WriteLine("Select 3 to change toppings");
+      // TODO add option to edit pizza type
+
     }
   }
 }

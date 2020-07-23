@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using PizzaStore.Domain.Models;
 
 namespace PizzaStore.Client
@@ -61,6 +62,7 @@ namespace PizzaStore.Client
             // TODO check if cart is NOT empty
             if(!IsCartEmpty(cart))
               DisplayCart3(cart);
+              CartMenu(cart);
             break;
           case 6:
             // var fileManagerWriter = new FileManager();
@@ -97,7 +99,9 @@ namespace PizzaStore.Client
         System.Console.WriteLine(counter++ + ". " + pizza);
         System.Console.WriteLine();
       }
-
+    }
+    static void CartMenu(Order cart)
+    {
       Starter.CartMenu();
       int select;
       int.TryParse(Console.ReadLine(), out select);
@@ -127,12 +131,15 @@ namespace PizzaStore.Client
       else if (select == 3)
       {
         // TODO edit order
+        EditPizza(cart);
       }
     }
     static void RemovePizza(Order cart)
     {
       System.Console.WriteLine("- Delete a Pizza");
+      DisplayCart3(cart);
       Starter.RemovePizzaMenu();
+
       int select;
       int.TryParse(Console.ReadLine(), out select);
       if(select == 99)
@@ -149,7 +156,48 @@ namespace PizzaStore.Client
       cart.Pizzas.Clear();
       System.Console.WriteLine("Success! Cart is empty");
       System.Console.WriteLine("Going Back to Main Menu...");
+      System.Console.WriteLine();
       // TODO are you sure you want to delete all
+    }
+
+    static void EditPizza(Order cart)
+    {
+      System.Console.WriteLine("- Edit a Pizza");
+      DisplayCart3(cart);
+      Starter.EditPizzaMenu();
+      
+      int select;
+      int.TryParse(Console.ReadLine(), out select);
+      if(select == 99)
+      {
+        EditCart(cart); // going back to menu
+      }
+      var pizza = cart.Pizzas.ElementAt(select-1);
+      ModifyPizza(pizza);
+      DisplayCart3(cart);
+    }
+    static void ModifyPizza(Pizza pizza)
+    {
+      System.Console.WriteLine(pizza);
+      System.Console.WriteLine();
+      System.Console.WriteLine("- Modify your Pizza");
+      Starter.ModifyPizzaMenu();
+
+      // TODO add user selection
+      // pizza.Crust = "Grande";
+    }
+    
+    static void EditSize()
+    {
+
+    }
+    static void EditCrust()
+    {
+
+    }
+    static void EditToppings()
+    {
+      
     }
   }
 }
