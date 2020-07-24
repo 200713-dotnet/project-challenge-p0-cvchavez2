@@ -60,6 +60,7 @@ namespace PizzaStore.Client
     {
       System.Console.WriteLine("Enter Pizza number to edit");
       System.Console.WriteLine("Enter 99 to return");
+      System.Console.WriteLine();
     }
 
     internal static void ModifyPizzaMenu() // give it a more appropriate name
@@ -67,8 +68,20 @@ namespace PizzaStore.Client
       System.Console.WriteLine("Select 1 to change size");
       System.Console.WriteLine("Select 2 to change crust");
       System.Console.WriteLine("Select 3 to change toppings");
+      System.Console.WriteLine("Select 9 when you are done");
+      System.Console.WriteLine("Enter 99 to return");
+      System.Console.WriteLine();
       // TODO add option to edit pizza type
 
+    }
+    internal static void SelectPizzaSizeMenu()
+    {
+      System.Console.WriteLine("Select 1 for Small");
+      System.Console.WriteLine("Select 2 for Medium");
+      System.Console.WriteLine("Select 3 for Large");
+      System.Console.WriteLine("Select 4 for XLarge");
+      System.Console.WriteLine("Enter 99 to return");
+      System.Console.WriteLine();
     }
   }
 }

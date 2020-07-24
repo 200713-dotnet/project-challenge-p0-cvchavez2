@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using PizzaStore.Domain.Models;
+using PizzaStore.Domain.Models.PizzaModel;
+using PizzaStore.Domain.Models.ToppingModel;
 
 namespace PizzaStore.Client
 {
@@ -42,32 +44,35 @@ namespace PizzaStore.Client
         switch (select)
         {
           case 1:
-            cart.CreatePizza("cheese", "L", "stuffed", new List<string> { "ran", "jal" });
+            cart.CreatePizza("Cheese", "L", "stuffed", new List<Topping> { new Cheese(), new Jalapeno() });
             System.Console.WriteLine("added Cheese Pizza");
             break;
           case 2:
-            cart.CreatePizza("pepperoni", "L", "stuffed", new List<string> { "ran", "jal" });
+            cart.CreatePizza("pepperoni", "M", "flatbread", new List<Topping> { new Cheese(), new Jalapeno() });
             System.Console.WriteLine("added Pepperoni Pizza");
             break;
           case 3:
-            cart.CreatePizza("hawaiian", "L", "stuffed", new List<string> { "ran", "jal" });
+            cart.CreatePizza("hawaiian", "XL", "regular", new List<Topping> { new Cheese(), new Jalapeno() });
             System.Console.WriteLine("added Hawaiian Pizza");
             break;
           case 4:
-            cart.CreatePizza("custom", "L", "stuffed", new List<string> { "ran", "jal" });
+            cart.CreatePizza("custom", "L", "stuffed", new List<Topping> { new Cheese(), new Jalapeno() });
             System.Console.WriteLine("added Custom Pizza");
             break;
           case 5:
             System.Console.WriteLine("Cart\n");
             // TODO check if cart is NOT empty
-            if(!IsCartEmpty(cart))
+            if (!IsCartEmpty(cart))
+            {
               DisplayCart3(cart);
               CartMenu(cart);
+            }
             break;
           case 6:
             // var fileManagerWriter = new FileManager();
             // fileManagerWriter.Write(cart);
             System.Console.WriteLine("exit menu, thank you");
+            System.Console.WriteLine(cart.OrderPrice);
             exit = true;
             break;
           case 7:
@@ -82,7 +87,7 @@ namespace PizzaStore.Client
 
     static bool IsCartEmpty(Order cart)
     {
-      if (cart.Pizzas == null || cart.Pizzas.Count == 0)
+      if (cart.IsListEmpty())
       {
         System.Console.WriteLine("Cart is empty, nothing to display");
         System.Console.WriteLine("Going back to main menu...");
@@ -114,7 +119,7 @@ namespace PizzaStore.Client
     static void EditCart(Order cart)
     {
       System.Console.WriteLine("- Edit Cart");
-      if(IsCartEmpty(cart)) // check if cart is empty
+      if (cart.IsListEmpty()) // check if cart is empty
         return;
       Starter.EditCartMenu();
       int select;
@@ -142,18 +147,18 @@ namespace PizzaStore.Client
 
       int select;
       int.TryParse(Console.ReadLine(), out select);
-      if(select == 99)
+      if (select == 99)
       {
         EditCart(cart);
       }
-      cart.Pizzas.RemoveAt(select-1); // TODO check if there are pizzas to delete
+      cart.RemovePizzaAt(select); // TODO check if there are pizzas to delete
       EditCart(cart);
     }
 
     static void RemoveAllPizzas(Order cart)
     {
       System.Console.WriteLine("Clearing cart...");
-      cart.Pizzas.Clear();
+      cart.RemoveAllPizzas();
       System.Console.WriteLine("Success! Cart is empty");
       System.Console.WriteLine("Going Back to Main Menu...");
       System.Console.WriteLine();
@@ -165,31 +170,86 @@ namespace PizzaStore.Client
       System.Console.WriteLine("- Edit a Pizza");
       DisplayCart3(cart);
       Starter.EditPizzaMenu();
-      
+
       int select;
       int.TryParse(Console.ReadLine(), out select);
-      if(select == 99)
+      if (select == 99)
       {
         EditCart(cart); // going back to menu
       }
-      var pizza = cart.Pizzas.ElementAt(select-1);
+      var pizza = cart.Pizzas.ElementAt(select - 1);
       ModifyPizza(pizza);
       DisplayCart3(cart);
+      CartMenu(cart);
     }
     static void ModifyPizza(Pizza pizza)
     {
-      System.Console.WriteLine(pizza);
-      System.Console.WriteLine();
-      System.Console.WriteLine("- Modify your Pizza");
-      Starter.ModifyPizzaMenu();
+      var exit = false;
+      do
+      {
+        System.Console.WriteLine("- Pizza to modify");
+        System.Console.WriteLine(pizza);
+        System.Console.WriteLine();
+        System.Console.WriteLine("- Modify your Pizza");
+        Starter.ModifyPizzaMenu();
 
-      // TODO add user selection
-      // pizza.Crust = "Grande";
+        int select;
+        int.TryParse(Console.ReadLine(), out select);
+        switch (select)
+        {
+          case 1:
+            EditSize(pizza);
+            break;
+          case 2:
+            EditCrust();
+            break;
+          case 3:
+            EditToppings();
+            break;
+          case 9:
+            System.Console.WriteLine("Awesome! You are done making changes");
+            System.Console.WriteLine();
+            exit = true;
+            break;
+        }
+      } while (!exit);
+
     }
-    
-    static void EditSize()
-    {
 
+    static void EditSize(Pizza pizza)
+    {
+      System.Console.WriteLine("- Select Pizza Size");
+      Starter.SelectPizzaSizeMenu();
+      int select;
+      int.TryParse(Console.ReadLine(), out select);
+      switch (select)
+      {
+        case 1:
+          pizza.EditPizzaSize("S");
+          System.Console.WriteLine("Your Pizza is now Small!");
+          break;
+        case 2:
+          pizza.EditPizzaSize("M");
+          System.Console.WriteLine("Your Pizza is now Medium!");
+          break;
+        case 3:
+          pizza.EditPizzaSize("L");
+          System.Console.WriteLine("Your Pizza is now Large!");
+          break;
+        case 4:
+          pizza.EditPizzaSize("XL");
+          System.Console.WriteLine("Your Pizza is now Extra Large!");
+          break;
+        case 99:
+          System.Console.WriteLine("Returning to Modify Pizza Menu...");
+          System.Console.WriteLine();
+          // ModifyPizza(pizza);
+          break;
+        default:
+          System.Console.WriteLine("Default case");
+          System.Console.WriteLine("Returning to Modify Pizza Menu...");
+          break;
+      }
     }
     static void EditCrust()
     {
@@ -197,7 +257,7 @@ namespace PizzaStore.Client
     }
     static void EditToppings()
     {
-      
+
     }
   }
 }
