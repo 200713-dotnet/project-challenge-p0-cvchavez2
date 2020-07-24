@@ -38,16 +38,26 @@ namespace PizzaStore.Domain.Models.PizzaModel
     }  
     public void EditPizzaSize(string size)
     {
-      // Size = size;
+      Size.PizzaSize = size;
     }
     public void EditPizzaCrust(string crust)
     {
       // Crust = crust;
     }
-    public void EditPizzaToppings(List<Topping> toppings)
+    public void AddPizzaTopping(Topping topping)
     {
-      Toppings.AddRange(toppings);
+      _toppings.Add(topping);
+      ComputePizzaPrice();
     }
+    public int ToppingsCount()
+    {
+      return _toppings.Count; 
+    }
+    public bool IsToppingsAtRange()
+    {
+      return ToppingsCount() <= 5;
+    }
+
     public override string ToString()
     {
       var sb = new StringBuilder();

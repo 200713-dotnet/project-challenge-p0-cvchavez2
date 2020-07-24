@@ -5,7 +5,7 @@ namespace PizzaStore.Domain.Models.PizzaModel
   public class Topping
   {
 
-    // const string NAME = "Topping";
+    const string NAME = "Topping";
 
     public Topping()
     {

@@ -16,6 +16,6 @@ namespace PizzaStore.Domain.Models.ToppingModel
       { return JALAPENO_PRICE; }
     }
 
-    public string Name { get { return NAME; } }
+    public override string Name { get { return NAME; } }
   }
 }

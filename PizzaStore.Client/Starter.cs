@@ -83,5 +83,24 @@ namespace PizzaStore.Client
       System.Console.WriteLine("Enter 99 to return");
       System.Console.WriteLine();
     }
+
+    internal static void ToppingsMenu()
+    {
+      System.Console.WriteLine("Enter 1 to add a topping (Max. 5 Toppings)");
+      System.Console.WriteLine("Enter 2 to remove a topping");
+      System.Console.WriteLine("Enter 99 if you are done");
+    }
+
+    internal static void ToppingsListMenu()
+    {
+      System.Console.WriteLine("Enter 1 to add Cheese");
+      System.Console.WriteLine("Enter 2 to add Ham");
+      System.Console.WriteLine("Enter 3 to add Jalapeno");
+      System.Console.WriteLine("Enter 4 to add Mushrooms");
+      System.Console.WriteLine("Enter 5 to add Olives");
+      System.Console.WriteLine("Enter 6 to add Pepperoni");
+      System.Console.WriteLine("Enter 7 to add Pineapple");
+      System.Console.WriteLine("Enter 99 to return");
+    }
   }
 }

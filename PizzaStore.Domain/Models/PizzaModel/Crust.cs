@@ -5,6 +5,8 @@ namespace PizzaStore.Domain.Models.PizzaModel
     const double REGULAR_CRUST = 0.0D;
     const double CHEESE_STUFFED_CRUST = 1.0D;
     const double FLATBREAD_CRUST = 0.5D;
+
+    string _crust = "";
     public Crust()
     {
       PizzaCrust = "regular";
@@ -17,7 +19,7 @@ namespace PizzaStore.Domain.Models.PizzaModel
     }
     void AssignPrice()
     {
-      switch(PizzaCrust)
+      switch (PizzaCrust)
       {
         case "regular":
           CrustPrice = REGULAR_CRUST;
@@ -31,9 +33,9 @@ namespace PizzaStore.Domain.Models.PizzaModel
       }
     }
 
-    public string PizzaCrust { get; set; }
+    public string PizzaCrust { get { return _crust; } set { _crust = value; AssignPrice(); } }
 
     public double CrustPrice { get; set; }
-    
+
   }
 }

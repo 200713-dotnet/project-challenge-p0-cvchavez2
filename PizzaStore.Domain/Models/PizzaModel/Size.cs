@@ -6,6 +6,9 @@ namespace PizzaStore.Domain.Models.PizzaModel
     const double MEDIUM = 7.0D;
     const double LARGE = 9.0D;
     const double XLARGE = 11.0D;
+
+    string _size = "";
+
     public Size()
     {
       PizzaSize = "M";
@@ -19,7 +22,7 @@ namespace PizzaStore.Domain.Models.PizzaModel
 
     void AssignPrice()
     {
-      switch(PizzaSize)
+      switch (PizzaSize)
       {
         case "S":
           SizePrice = SMALL;
@@ -35,9 +38,20 @@ namespace PizzaStore.Domain.Models.PizzaModel
           break;
       }
     }
-    public string PizzaSize { get; set; }
 
+    public string PizzaSize
+    {
+      get
+      {
+        return _size;
+      }
+      set
+      {
+        _size = value;
+        AssignPrice();
+      }
+    }
     public double SizePrice { get; set; }
-    
+
   }
 }

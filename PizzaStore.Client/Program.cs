@@ -204,7 +204,7 @@ namespace PizzaStore.Client
             EditCrust();
             break;
           case 3:
-            EditToppings();
+            EditToppings(pizza);
             break;
           case 9:
             System.Console.WriteLine("Awesome! You are done making changes");
@@ -250,14 +250,92 @@ namespace PizzaStore.Client
           System.Console.WriteLine("Returning to Modify Pizza Menu...");
           break;
       }
+      pizza.ComputePizzaPrice(); // not sure if call this within Pizza class after changes or here
     }
     static void EditCrust()
     {
-
+      // same logic as editpizza
     }
-    static void EditToppings()
+    static void EditToppings(Pizza pizza)
     {
+      var exit = false;
+      do
+      {
+        System.Console.WriteLine("- Toppings ");
+        Starter.ToppingsMenu();
+        // you have so and so toppings 
+        int select;
+        int.TryParse(Console.ReadLine(), out select);
 
+        switch (select)
+        {
+          case 1:
+            AddTopping(pizza);
+            break;
+          case 2:
+            RemoveTopping(pizza);
+            break;
+          case 99:
+            exit = true;
+            System.Console.WriteLine("You are done!");
+            System.Console.WriteLine("Going back to Pizza Menu");
+            break;
+        }
+      } while (!exit);
+    }
+    static void AddTopping(Pizza pizza)
+    {
+      var exit = false;
+      do
+      {
+        System.Console.WriteLine($"- Choose your toppings ({pizza.ToppingsCount()}/5) Max. 5");
+        Starter.ToppingsListMenu();
+        int select;
+        int.TryParse(Console.ReadLine(), out select);
+
+        if (!pizza.IsToppingsAtRange())
+        {
+          System.Console.WriteLine("You have exceeded allowed amount of Toppings");
+          System.Console.WriteLine("Going back to Toppings Menu...");
+          return;
+        }
+
+        switch (select)
+        {
+          case 1:
+            pizza.AddPizzaTopping(new Cheese());
+            break;
+          case 2:
+            pizza.AddPizzaTopping(new Cheese()); // change to ham
+            break;
+          case 3:
+            pizza.AddPizzaTopping(new Jalapeno()); // change to jalapeno
+            break;
+          case 4:
+            pizza.AddPizzaTopping(new Cheese()); // change to musshrooms
+            break;
+          case 5:
+            pizza.AddPizzaTopping(new Cheese()); // change to olives
+            break;
+          case 6:
+            pizza.AddPizzaTopping(new Cheese()); // change to pepperoni
+            break;
+          case 7:
+            pizza.AddPizzaTopping(new Cheese()); // change to pineapple
+            break;
+          case 99:
+            exit = true;
+            // System.Console.WriteLine("You are done adding toppings");
+            System.Console.WriteLine("Going back to Pizza Menu");
+            ModifyPizza(pizza);  // probably should not be here
+            break;
+        }
+      } while (!exit);
+    }
+    static void RemoveTopping(Pizza pizza)
+    {
+      // TODO method should work when user does not want default toppings
+      // and user wants to change a topping
     }
   }
 }
