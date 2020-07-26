@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 
 namespace PizzaStore.Domain.Models.PizzaModel
 {
@@ -19,7 +20,10 @@ namespace PizzaStore.Domain.Models.PizzaModel
     public virtual string Name { get { return NAME; } }
     public virtual double Price { get; }
 
-
-    public List<Topping> Toppings { get; set; }
+    public override string ToString()
+    {
+      return $"{Name} \nprice: {Price}";
+    }
+    // public List<Topping> Toppings { get; set; }
   }
 }

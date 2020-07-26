@@ -47,7 +47,17 @@ namespace PizzaStore.Domain.Models.PizzaModel
     public void AddPizzaTopping(Topping topping)
     {
       _toppings.Add(topping);
-      ComputePizzaPrice();
+      ComputePizzaPrice(); // TODO delete computation from here
+    }
+    public void RemoveTopping(Topping topping)
+    {
+      _toppings.Remove(topping);
+      ComputePizzaPrice(); // TODO delete computation from here
+    }
+    public void RemoveTopping(int index)
+    {
+      _toppings.Remove(_toppings.ElementAt(index-1));
+      ComputePizzaPrice(); // TODO delete computation from here
     }
     public int ToppingsCount()
     {
@@ -55,7 +65,7 @@ namespace PizzaStore.Domain.Models.PizzaModel
     }
     public bool IsToppingsAtRange()
     {
-      return ToppingsCount() <= 5;
+      return ToppingsCount() < 5;
     }
 
     public override string ToString()

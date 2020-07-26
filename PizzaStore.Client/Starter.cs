@@ -10,10 +10,10 @@ namespace PizzaStore.Client
       // TODO add new order to user and store but why ?????
       try
       {
-        // var order = new Order();
-        // user.Orders.Add(order);
-        // store.Orders.Add(order);        
-        return new Order();
+        var order = new Order();
+        user.Orders.Add(order);
+        store.Orders.Add(order);        
+        return order;
       }
       catch
       {
@@ -24,14 +24,22 @@ namespace PizzaStore.Client
         GC.Collect();
       }
     }
+    internal static void ManageMenu()
+    {
+      System.Console.WriteLine("Select 1 to Manage Store");
+      System.Console.WriteLine("Select 2 to Start Ordering Pizza");
+      System.Console.WriteLine("Select 3 to Manage User");
+      System.Console.WriteLine("Select 99 to Exit");
+      System.Console.WriteLine();
+    }
     internal static void PrintMenu()
     {
       System.Console.WriteLine("Select 1 for Cheese Pizza");
       System.Console.WriteLine("Select 2 for Pepperoni Pizza");
       System.Console.WriteLine("Select 3 for Hawaian Pizza");
       System.Console.WriteLine("Select 4 for Custom Pizza");
-      System.Console.WriteLine("Select 5 to show Cart");
-      System.Console.WriteLine("Select 6 to Exit");
+      System.Console.WriteLine("Select 5 to Show Cart");
+      System.Console.WriteLine("Select 6 to Submit Order");
       System.Console.WriteLine("Select 7 to Read File");
       System.Console.WriteLine();
     }
@@ -68,7 +76,6 @@ namespace PizzaStore.Client
       System.Console.WriteLine("Select 1 to change size");
       System.Console.WriteLine("Select 2 to change crust");
       System.Console.WriteLine("Select 3 to change toppings");
-      System.Console.WriteLine("Select 9 when you are done");
       System.Console.WriteLine("Enter 99 to return");
       System.Console.WriteLine();
       // TODO add option to edit pizza type
@@ -101,6 +108,13 @@ namespace PizzaStore.Client
       System.Console.WriteLine("Enter 6 to add Pepperoni");
       System.Console.WriteLine("Enter 7 to add Pineapple");
       System.Console.WriteLine("Enter 99 to return");
+    }
+
+    internal static void RemoveToppingMenu() // give it a more appropriate name
+    {
+      System.Console.WriteLine("Enter Topping number to delete");
+      System.Console.WriteLine("Enter 99 to return");
+      System.Console.WriteLine();
     }
   }
 }
