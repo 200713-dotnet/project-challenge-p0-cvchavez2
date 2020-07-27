@@ -10,11 +10,10 @@ namespace PizzaStore.Client
   public class ManagePizza
   {
     public ManagePizza()
-    {}
-    public static Order Menu(Order cart)
+    { }
+    public static void Menu(Order cart)
     {
       var exit = false;
-      // var startup = new PizzaStore.Client.Startup();
       do
       {
         Starter.PrintMenu();
@@ -23,27 +22,19 @@ namespace PizzaStore.Client
         switch (select)
         {
           case 1:
-            System.Console.WriteLine("adding Cheese Pizza....");
-            if(cart.CreatePizza("Cheese", "L", "stuffed", new List<Topping> { new Cheese(), new Jalapeno() }))
-              System.Console.WriteLine("added Cheese Pizza");
-            else
-              System.Console.WriteLine("Pizza not added to cart");
+              AddPizza(cart, new CheesePizzaFactory());
             break;
           case 2:
-            cart.CreatePizza("pepperoni", "M", "flatbread", new List<Topping> { new Cheese(), new Jalapeno() });
-            System.Console.WriteLine("added Pepperoni Pizza");
+              AddPizza(cart, new PepperoniPizzaFactory());
             break;
           case 3:
-            cart.CreatePizza("hawaiian", "XL", "regular", new List<Topping> { new Cheese(), new Jalapeno() });
-            System.Console.WriteLine("added Hawaiian Pizza");
+              AddPizza(cart, new HawaiianPizzaFactory());
             break;
           case 4:
-            cart.CreatePizza("custom", "L", "stuffed", new List<Topping> { new Cheese(), new Jalapeno() });
-            System.Console.WriteLine("added Custom Pizza");
+              AddPizza(cart, new CustomPizzaFactory());
             break;
           case 5:
             System.Console.WriteLine("Cart\n");
-            // TODO check if cart is NOT empty
             if (!IsCartEmpty(cart))
             {
               DisplayCart3(cart);
@@ -51,23 +42,40 @@ namespace PizzaStore.Client
             }
             break;
           case 6:
-            // var fileManagerWriter = new FileManager();
-            // fileManagerWriter.Write(cart);
+            System.Console.WriteLine("Order TOTAL: " + cart.OrderPrice);
+            cart.SetOrderDateTime();
+            System.Console.WriteLine("Order submitted at: " + cart.TimeOrdered);
             System.Console.WriteLine("exit menu, thank you");
-            System.Console.WriteLine(cart.OrderPrice);
             exit = true;
             break;
           case 7:
             System.Console.WriteLine("Read File");
-            // var fileManagerReader = new FileManager();
-            // DisplayCart3(fileManagerReader.Read());
             break;
         }
         System.Console.WriteLine();
       } while (!exit);
-      return cart;
     }
-
+    static void AddPizza(Order cart, Pizza pizza)
+    {
+      System.Console.WriteLine("adding Pizza....");
+      AdjustPizza(pizza);
+      if (!cart.CreatePizza(pizza))
+        System.Console.WriteLine("Pizza not added to cart");
+    }
+    static void AdjustPizza(Pizza pizza)
+    {
+      System.Console.WriteLine();
+      System.Console.WriteLine("This is your Pizza, adjust as needed");
+      System.Console.WriteLine("_____________________");
+      System.Console.WriteLine(pizza);
+      System.Console.WriteLine("_____________________");
+      EditSize(pizza);
+      System.Console.WriteLine();
+      System.Console.WriteLine("_____________________");
+      EditToppings(pizza);
+      System.Console.WriteLine("_____________________");
+      EditCrust(pizza);
+    }
     static bool IsCartEmpty(Order cart)
     {
       if (cart.IsListEmpty())
@@ -79,7 +87,7 @@ namespace PizzaStore.Client
       }
       return false;
     }
-    static void DisplayCart3(Order cart)
+    public static void DisplayCart3(Order cart)
     {
       int counter = 1;
       foreach (var pizza in cart.Pizzas)
@@ -195,7 +203,7 @@ namespace PizzaStore.Client
             EditSize(pizza);
             break;
           case 2:
-            EditCrust();
+            EditCrust(pizza);
             break;
           case 3:
             EditToppings(pizza);
@@ -235,20 +243,39 @@ namespace PizzaStore.Client
           System.Console.WriteLine("Your Pizza is now Extra Large!");
           break;
         case 99:
-          System.Console.WriteLine("Returning to Modify Pizza Menu...");
+          System.Console.WriteLine("Returning to Modify Pizza Menu..."); //////////////
           System.Console.WriteLine();
           // ModifyPizza(pizza);
           break;
         default:
           System.Console.WriteLine("Default case");
-          System.Console.WriteLine("Returning to Modify Pizza Menu...");
+          System.Console.WriteLine("Returning to Modify Pizza Menu..."); //////////////
           break;
       }
-      pizza.ComputePizzaPrice(); // not sure if call this within Pizza class after changes or here
     }
-    static void EditCrust()
+    static void EditCrust(Pizza pizza)
     {
       // same logic as editpizza
+      System.Console.WriteLine("- Select Crust");
+      Starter.EditCrustMenu();
+      int select;
+      int.TryParse(Console.ReadLine(), out select);
+
+      if(select == 1){
+        pizza.EditPizzaCrust("stuffed");
+      }
+      else if(select == 2){
+        pizza.EditPizzaCrust("flatbread");
+      }
+      else if(select == 99)
+      {
+        System.Console.WriteLine("Returning to Pizza Menu");
+        return;
+      }
+      else{
+        return;
+      }
+
     }
     static void EditToppings(Pizza pizza)
     {
@@ -293,7 +320,6 @@ namespace PizzaStore.Client
         if (!pizza.IsToppingsAtRange())
         {
           System.Console.WriteLine("You have exceeded allowed amount of Toppings");
-          DisplayToppings(pizza);
           System.Console.WriteLine("Going back to Toppings Menu...");
           return;
         }
@@ -304,22 +330,22 @@ namespace PizzaStore.Client
             pizza.AddPizzaTopping(new Cheese());
             break;
           case 2:
-            pizza.AddPizzaTopping(new Cheese()); // change to ham
+            pizza.AddPizzaTopping(new Ham()); // change to ham
             break;
           case 3:
             pizza.AddPizzaTopping(new Jalapeno()); // change to jalapeno
             break;
           case 4:
-            pizza.AddPizzaTopping(new Cheese()); // change to musshrooms
+            pizza.AddPizzaTopping(new Mushrooms()); // change to musshrooms
             break;
           case 5:
-            pizza.AddPizzaTopping(new Cheese()); // change to olives
+            pizza.AddPizzaTopping(new Olives()); // change to olives
             break;
           case 6:
-            pizza.AddPizzaTopping(new Cheese()); // change to pepperoni
+            pizza.AddPizzaTopping(new Pepperoni()); // change to pepperoni
             break;
           case 7:
-            pizza.AddPizzaTopping(new Cheese()); // change to pineapple
+            pizza.AddPizzaTopping(new Pineapple()); // change to pineapple
             break;
           case 99:
             exit = true;

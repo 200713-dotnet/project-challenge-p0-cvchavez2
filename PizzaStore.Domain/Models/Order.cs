@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using PizzaStore.Domain.Models.PizzaModel;
@@ -13,6 +14,8 @@ namespace PizzaStore.Domain.Models
     }
     public List<Pizza> Pizzas { get; set; }
 
+    public DateTime TimeOrdered { get; set; }
+
     public double OrderPrice
     {
       get
@@ -21,27 +24,34 @@ namespace PizzaStore.Domain.Models
         return _orderPrice;
       }
     }
-    public bool CreatePizza(string name, string size, string crust, List<Topping> toppings)
+    public bool CreatePizza(Pizza factory)
     {
-      var pizza = new Pizza(new Name(name), new Size(size), new Crust(crust), toppings);
-      if(OrderPrice + pizza.PizzaPrice > 250){
+      var pizza = factory;
+      if (OrderPrice + pizza.PizzaPrice > 250)
+      {
         System.Console.WriteLine("Order exceeded maximum amount allowed per order");
         System.Console.WriteLine($"Current order total: ${OrderPrice}");
         System.Console.WriteLine($"Current pizza price ${pizza.PizzaPrice}");
-        System.Console.WriteLine($"Order exceeds by: ${(OrderPrice+pizza.PizzaPrice)-250}");
+        System.Console.WriteLine($"Order exceeds by: ${(OrderPrice + pizza.PizzaPrice) - 250}");
         System.Console.WriteLine("Please try again");
         System.Console.WriteLine();
         return false;
-      }else if(!IsPizzasInRange()){
+      }
+      else if (!IsPizzasInRange())
+      {
         System.Console.WriteLine("Order exceeded maximum amount of Pizzas allowed per order");
         System.Console.WriteLine();
         return false;
       }
-      System.Console.WriteLine("Pizza added succesfully to cart");
       Pizzas.Add(pizza);
+      // System.Console.WriteLine("Pizza added succesfully to cart");
       return true;
     }
 
+    public void SetOrderDateTime()
+    {
+      TimeOrdered = DateTime.Now;
+    }
     public int PizzasInOrder()
     {
       return Pizzas.Count();

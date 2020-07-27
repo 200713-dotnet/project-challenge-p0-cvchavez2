@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PizzaStore.Domain.Models.ToppingModel;
 
 namespace PizzaStore.Domain.Models.PizzaModel
 {
@@ -34,15 +35,17 @@ namespace PizzaStore.Domain.Models.PizzaModel
     }
     public void EditPizzaName(string name)
     {
-      // Size = size;
+      Name.PizzaName = name;
     }  
     public void EditPizzaSize(string size)
     {
       Size.PizzaSize = size;
+      ComputePizzaPrice();
     }
     public void EditPizzaCrust(string crust)
     {
-      // Crust = crust;
+      Crust.PizzaCrust = crust;
+      ComputePizzaPrice();
     }
     public void AddPizzaTopping(Topping topping)
     {
@@ -66,6 +69,11 @@ namespace PizzaStore.Domain.Models.PizzaModel
     public bool IsToppingsAtRange()
     {
       return ToppingsCount() < 5;
+    }
+    
+    public virtual Pizza MakePizza()
+    {
+      return new Pizza(new Name("Cheese"),new Size("M"),new Crust("Regular"),new List<Topping>{new Cheese(), new Cheese()});
     }
 
     public override string ToString()

@@ -24,9 +24,24 @@ namespace PizzaStore.Client
         GC.Collect();
       }
     }
-    internal static void ManageMenu()
+
+    internal static void OrderMenu()
     {
-      System.Console.WriteLine("Select 1 to Manage Store");
+        System.Console.WriteLine("Select 1 to start a new order");
+        System.Console.WriteLine("Select 2 to view your order history");
+        System.Console.WriteLine("Select 99 to Exit");
+        System.Console.WriteLine();
+    }
+    internal static void UserPerspectiveMenu()
+    {
+      System.Console.WriteLine("Select 1 for Customer");
+      System.Console.WriteLine("Select 2 for Administrator");
+      System.Console.WriteLine("Select 99 to Exit");
+      System.Console.WriteLine();
+    }
+    internal static void ManageCustomerMenu()
+    {
+      System.Console.WriteLine("Select 1 to Choose a Store");
       System.Console.WriteLine("Select 2 to Start Ordering Pizza");
       System.Console.WriteLine("Select 3 to Manage User");
       System.Console.WriteLine("Select 99 to Exit");
@@ -89,6 +104,13 @@ namespace PizzaStore.Client
       System.Console.WriteLine("Select 4 for XLarge");
       System.Console.WriteLine("Enter 99 to return");
       System.Console.WriteLine();
+    }
+
+    internal static void EditCrustMenu()
+    {
+      System.Console.WriteLine("Select 1 for Cheese Stuffed Crust");
+      System.Console.WriteLine("Select 2 for Flatbread Crust");
+      System.Console.WriteLine("Select 99 to Exit");
     }
 
     internal static void ToppingsMenu()

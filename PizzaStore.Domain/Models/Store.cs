@@ -12,5 +12,6 @@ namespace PizzaStore.Domain.Models
     public List<Order> Orders { get; set; }
 
     public string Name { get; set; }
+
   }
 }

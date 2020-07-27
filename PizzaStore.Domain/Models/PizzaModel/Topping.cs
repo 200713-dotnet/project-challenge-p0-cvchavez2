@@ -5,19 +5,24 @@ namespace PizzaStore.Domain.Models.PizzaModel
 {
   public class Topping
   {
-
-    const string NAME = "Topping";
-
     public Topping()
     {
-
+    }
+    public Topping(string name)
+    {
+      Name = name;
+    }
+    public Topping(string name, double price)
+    {
+      Name = name;
+      Price = price;
     }
     public Topping(List<Topping> toppings)
     {
-      
+
     }
 
-    public virtual string Name { get { return NAME; } }
+    public virtual string Name { get; set; }
     public virtual double Price { get; }
 
     public override string ToString()
