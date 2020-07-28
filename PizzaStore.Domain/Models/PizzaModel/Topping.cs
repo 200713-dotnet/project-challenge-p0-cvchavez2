@@ -23,7 +23,7 @@ namespace PizzaStore.Domain.Models.PizzaModel
     }
 
     public virtual string Name { get; set; }
-    public virtual double Price { get; }
+    public virtual double Price { get; set; }
 
     public override string ToString()
     {

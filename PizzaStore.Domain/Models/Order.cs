@@ -7,7 +7,7 @@ namespace PizzaStore.Domain.Models
 {
   public class Order
   {
-    double _orderPrice;
+    double _orderAmount;
     public Order()
     {
       Pizzas = new List<Pizza>();
@@ -16,23 +16,23 @@ namespace PizzaStore.Domain.Models
 
     public DateTime TimeOrdered { get; set; }
 
-    public double OrderPrice
+    public double OrderAmount
     {
       get
       {
         ComputeOrderPrice();
-        return _orderPrice;
+        return _orderAmount;
       }
     }
     public bool CreatePizza(Pizza factory)
     {
       var pizza = factory;
-      if (OrderPrice + pizza.PizzaPrice > 250)
+      if (OrderAmount + pizza.PizzaPrice > 250)
       {
         System.Console.WriteLine("Order exceeded maximum amount allowed per order");
-        System.Console.WriteLine($"Current order total: ${OrderPrice}");
+        System.Console.WriteLine($"Current order total: ${OrderAmount}");
         System.Console.WriteLine($"Current pizza price ${pizza.PizzaPrice}");
-        System.Console.WriteLine($"Order exceeds by: ${(OrderPrice + pizza.PizzaPrice) - 250}");
+        System.Console.WriteLine($"Order exceeds by: ${(OrderAmount + pizza.PizzaPrice) - 250}");
         System.Console.WriteLine("Please try again");
         System.Console.WriteLine();
         return false;
@@ -62,7 +62,7 @@ namespace PizzaStore.Domain.Models
     }
     private void ComputeOrderPrice()
     {
-      _orderPrice = Pizzas.Sum(Pizza => Pizza.PizzaPrice);
+      _orderAmount = Pizzas.Sum(Pizza => Pizza.PizzaPrice);
     }
     public void RemovePizzaAt(int index)
     {

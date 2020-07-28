@@ -42,7 +42,7 @@ namespace PizzaStore.Client
             }
             break;
           case 6:
-            System.Console.WriteLine("Order TOTAL: " + cart.OrderPrice);
+            System.Console.WriteLine("Order TOTAL: " + cart.OrderAmount);
             cart.SetOrderDateTime();
             System.Console.WriteLine("Order submitted at: " + cart.TimeOrdered);
             System.Console.WriteLine("exit menu, thank you");
@@ -95,7 +95,7 @@ namespace PizzaStore.Client
         System.Console.WriteLine(counter++ + ". " + pizza);
         System.Console.WriteLine();
       }
-      System.Console.WriteLine($"TOTAL: ${cart.OrderPrice}");
+      System.Console.WriteLine($"TOTAL: ${cart.OrderAmount}");
       System.Console.WriteLine();
     }
     static void DisplayToppings(Pizza pizza)
