@@ -29,7 +29,7 @@ namespace PizzaStore.Client
       {
         System.Console.WriteLine("__Customer Perspective__");
         CustomerRole();
-        System.Console.WriteLine("Thank you, exiting program!");
+        System.Console.WriteLine("Thank you, exiting Pizza Store!");
       }
       else if (select == 2)
       {
@@ -125,6 +125,8 @@ namespace PizzaStore.Client
       {
         order = starter.CreateOrder(user, store);
         ManagePizza.Menu(order);
+        var userRepository = new UserRepository();
+        userRepository.Create(user);
       }
       catch (Exception ex)
       {

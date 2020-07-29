@@ -99,10 +99,10 @@ namespace PizzaStore.Client
     internal static void SelectPizzaSizeMenu()
     {
       System.Console.WriteLine("Select 1 for Small");
-      System.Console.WriteLine("Select 2 for Medium");
+      System.Console.WriteLine("Select 2 for Medium (M default for all pizzas)");
       System.Console.WriteLine("Select 3 for Large");
       System.Console.WriteLine("Select 4 for XLarge");
-      System.Console.WriteLine("Enter 99 to return");
+      System.Console.WriteLine("Enter 99 to continue");
       System.Console.WriteLine();
     }
 
