@@ -47,9 +47,10 @@ namespace PizzaStore.Storing.Repositories
       }
       return newPizza;
     }
-    public List<domain.PizzaModel.Pizza> GetPizzasByUser(string username)
+    public List<domain.Order> ReadPizzaOrdersByUser(string username)
     {
-      var domainUserPizzaList = new List<domain.PizzaModel.Pizza>();
+      // var domainUserPizzaList = new List<domain.PizzaModel.Pizza>();
+      var domainUserOrdersList = new List<domain.Order>();
 
       var query = _db.Order.Include(u => u.User).Where(u => u.User.Name == username);
       var extendedQuery = query.Include(o => o.OrderPizza).ThenInclude(p => p.Pizza).ThenInclude(c => c.Crust)
@@ -58,6 +59,7 @@ namespace PizzaStore.Storing.Repositories
 
       foreach (var q in extendedQuery)
       {
+        var order = new domain.Order(){TimeOrdered = q.DateTime};
         // System.Console.WriteLine(q.User.Name);
         // System.Console.WriteLine(q.DateTime);
         foreach (var ran in q.OrderPizza)
@@ -69,7 +71,7 @@ namespace PizzaStore.Storing.Repositories
             toppings.Add(topping);
           }
           // System.Console.WriteLine(ran.Pizza.Name);
-          domainUserPizzaList.Add(new domain.PizzaModel.Pizza()
+          order.Pizzas.Add(new domain.PizzaModel.Pizza()
           {
             Name = new domain.PizzaModel.Name() { PizzaName = ran.Pizza.Name },
             Crust = new domain.PizzaModel.Crust() { PizzaCrust = ran.Pizza.Crust.Name, CrustPrice = (double)ran.Pizza.Crust.Price },
@@ -78,8 +80,9 @@ namespace PizzaStore.Storing.Repositories
             Toppings = toppings
           });
         }
+        domainUserOrdersList.Add(order);
       }
-      return domainUserPizzaList;
+      return domainUserOrdersList;
     }
   }
 }

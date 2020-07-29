@@ -23,6 +23,7 @@ namespace PizzaStore.Domain.Models
         ComputeOrderPrice();
         return _orderAmount;
       }
+      set{}
     }
     public bool CreatePizza(Pizza factory)
     {

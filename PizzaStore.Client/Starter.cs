@@ -27,8 +27,8 @@ namespace PizzaStore.Client
 
     internal static void OrderMenu()
     {
-        System.Console.WriteLine("Select 1 to start a new order");
-        System.Console.WriteLine("Select 2 to view your order history");
+        System.Console.WriteLine("Select 1 to place a new order");
+        System.Console.WriteLine("Select 2 to view order history");
         System.Console.WriteLine("Select 99 to Exit");
         System.Console.WriteLine();
     }

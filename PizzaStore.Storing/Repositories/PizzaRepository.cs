@@ -3,6 +3,7 @@ using System.Linq;
 // using PizzaStore.Domain.Models.PizzaModel;
 // using topModel = PizzaStore.Domain.Models.ToppingModel;
 using domain = PizzaStore.Domain.Models.PizzaModel;
+using orderDomain = PizzaStore.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace PizzaStore.Storing.Repositories
@@ -57,6 +58,40 @@ namespace PizzaStore.Storing.Repositories
         });
       };
       return domainPizzaList;
+    }
+    public List<orderDomain.Order> ReadAllPizzaOrders()
+    {
+      // var domainUserPizzaList = new List<domain.PizzaModel.Pizza>();
+      var domainUserOrdersList = new List<orderDomain.Order>();
+
+      var query = _db.Order.Include(u => u.User);
+      var extendedQuery = query.Include(o => o.OrderPizza).ThenInclude(p => p.Pizza).ThenInclude(c => c.Crust)
+        .Include(o => o.OrderPizza).ThenInclude(p => p.Pizza).ThenInclude(s => s.Size)
+        .Include(o => o.OrderPizza).ThenInclude(p => p.Pizza).ThenInclude(pt => pt.PizzaTopping).ThenInclude(t => t.Topping);
+
+      foreach (var q in extendedQuery)
+      {
+        var order = new orderDomain.Order(){TimeOrdered = q.DateTime};
+        foreach (var ran in q.OrderPizza)
+        {
+          var toppings = new List<orderDomain.PizzaModel.Topping>();
+          foreach (var pt in ran.Pizza.PizzaTopping)
+          {
+            var topping = new orderDomain.PizzaModel.Topping() { Name = pt.Topping.Name, Price = (double)pt.Topping.Price };
+            toppings.Add(topping);
+          }
+          order.Pizzas.Add(new orderDomain.PizzaModel.Pizza()
+          {
+            Name = new orderDomain.PizzaModel.Name() { PizzaName = ran.Pizza.Name },
+            Crust = new orderDomain.PizzaModel.Crust() { PizzaCrust = ran.Pizza.Crust.Name, CrustPrice = (double)ran.Pizza.Crust.Price },
+            Size = new orderDomain.PizzaModel.Size() { PizzaSize = ran.Pizza.Size.Name, SizePrice = (double)ran.Pizza.Size.Price },
+            PizzaPrice = ran.Pizza.Price,
+            Toppings = toppings
+          });
+        }
+        domainUserOrdersList.Add(order);
+      }
+      return domainUserOrdersList;
     }
     public void Delete()
     {
