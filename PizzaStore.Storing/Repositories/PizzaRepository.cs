@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using PizzaStore.Domain.Models.PizzaModel;
-using topModel = PizzaStore.Domain.Models.ToppingModel;
+// using PizzaStore.Domain.Models.PizzaModel;
+// using topModel = PizzaStore.Domain.Models.ToppingModel;
 using domain = PizzaStore.Domain.Models.PizzaModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,7 +47,6 @@ namespace PizzaStore.Storing.Repositories
           var topping = new domain.Topping() { Name = pt.Topping.Name, Price = (double)pt.Topping.Price };
           toppings.Add(topping);
         }
-        System.Console.WriteLine(item.Crust.Name);
         domainPizzaList.Add(new domain.Pizza()
         {
           Name = new domain.Name() { PizzaName = item.Name },

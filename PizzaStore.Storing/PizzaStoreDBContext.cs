@@ -17,10 +17,14 @@ namespace PizzaStore.Storing
 
         public virtual DbSet<Crust> Crust { get; set; }
         public virtual DbSet<Name> Name { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<OrderPizza> OrderPizza { get; set; }
         public virtual DbSet<Pizza> Pizza { get; set; }
         public virtual DbSet<PizzaTopping> PizzaTopping { get; set; }
         public virtual DbSet<Size> Size { get; set; }
         public virtual DbSet<Topping> Topping { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserOrders> UserOrders { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -49,6 +53,36 @@ namespace PizzaStore.Storing
                 entity.Property(e => e.Name1)
                     .HasColumnName("Name")
                     .HasMaxLength(200);
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.ToTable("Order", "User");
+
+                entity.Property(e => e.DateTime).HasColumnType("datetime2(0)");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Order)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Order_UserId");
+            });
+
+            modelBuilder.Entity<OrderPizza>(entity =>
+            {
+                entity.ToTable("OrderPizza", "User");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderPizza)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderPizza_OrderId");
+
+                entity.HasOne(d => d.Pizza)
+                    .WithMany(p => p.OrderPizza)
+                    .HasForeignKey(d => d.PizzaId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderPizza_PizzaId");
             });
 
             modelBuilder.Entity<Pizza>(entity =>
@@ -110,6 +144,35 @@ namespace PizzaStore.Storing
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("User", "User");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(200);
+            });
+
+            modelBuilder.Entity<UserOrders>(entity =>
+            {
+                entity.HasKey(e => e.UserOrderId)
+                    .HasName("PK_UserOrders_UserOrderId");
+
+                entity.ToTable("UserOrders", "User");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.UserOrders)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserOrders_OrderId");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserOrders)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserOrders_UserId");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -92,16 +92,49 @@ drop table Pizza.PizzaTopping
 go
 ---------------------------------------------------------------
 
--- create schema [User];
--- go
+drop schema [User]
+go
 
--- create table User.User
--- (
---   UserId int not null primary key,
---   [Name] nvarchar(200) not null,
---   OrderId int null foreign key references Order.[Order](OrderId),
--- )
--- go
+create schema [User]
+go
+
+create table [User].[User]
+(
+  UserId int not null identity(1,1),
+  [Name] nvarchar(200) not null,
+  constraint PK_UserId primary key (UserId),
+  -- OrderId int null foreign key references Order.[Order](OrderId),
+)
+
+create table [User].[Order]
+(
+  OrderId int not null identity(1,1),
+  [DateTime] datetime2(0) not null, -- not sure about this
+  UserId int not null,
+  constraint PK_OrderId primary key (OrderId),
+  constraint FK_Order_UserId foreign key (UserId) references [User].[User](UserId),
+)
+
+-- junction table for orders and pizzas
+create table [User].[OrderPizza]
+(
+  OrderPizzaId int not null identity(1,1),
+  OrderId int not null,
+  PizzaId int not null,
+  constraint PK_OrderPizzaId primary key (OrderPizzaId),
+  constraint FK_OrderPizza_OrderId foreign key (OrderId) references [User].[Order](OrderId),
+  constraint FK_OrderPizza_PizzaId foreign key (PizzaId) references [Pizza].[Pizza](PizzaId),
+)
+-- junction table for users and their orders
+create table [User].[UserOrders]
+(
+  UserOrderId int not null identity(1,1),
+  UserId int not null,
+  OrderId int not null,
+  constraint PK_UserOrders_UserOrderId primary key (UserOrderId),
+  constraint FK_UserOrders_UserId foreign key (UserId) references [User].[User](UserId),
+  constraint FK_UserOrders_OrderId foreign key (OrderId) references [User].[Order](OrderId),
+)
 
 -- ----------------------------------------------------------------
 -- create schema [Order]
